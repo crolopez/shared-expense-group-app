@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { DataDto } from 'src/app/types/data.dto';
-import { DebtDto } from 'src/app/types/debt.dto';
+import { BalanceDto } from 'src/app/types/balance.dto';
 import { ExpenseDto } from 'src/app/types/expense.dto';
 import { UserDto } from 'src/app/types/user.dto';
 
@@ -20,7 +20,7 @@ export class GroupComponent implements OnInit {
   showAddUserForm: boolean = false;
   expenses: DataDto<ExpenseDto>[] = []
   users: DataDto<UserDto>[] = []
-  balances: DataDto<DebtDto>[] = []
+  balances: DataDto<BalanceDto>[] = []
   debts: string[] = []
 
   constructor(private apiService: ApiService, private router: Router, private route: ActivatedRoute, private cd: ChangeDetectorRef) { }
@@ -47,7 +47,7 @@ export class GroupComponent implements OnInit {
 
     this.expenses = this.getFormattedExpenses(values[0].data as DataDto<ExpenseDto>[])
     this.users = values[1].data as DataDto<UserDto>[]
-    this.balances = values[2].data as DataDto<DebtDto>[]
+    this.balances = values[2].data as DataDto<BalanceDto>[]
 
     this.cd.detectChanges();
   }

@@ -1,4 +1,4 @@
-export interface DebtDto {
+export interface BalanceDto {
     amount: number
     name: string
 }

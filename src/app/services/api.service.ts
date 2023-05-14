@@ -10,7 +10,7 @@ import { GroupDto } from '../types/group.dto';
 import { ExpenseDto } from '../types/expense.dto';
 import { DataDto } from '../types/data.dto';
 import { UserDto } from '../types/user.dto';
-import { DebtDto } from '../types/debt.dto';
+import { BalanceDto } from '../types/balance.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -64,11 +64,11 @@ export class ApiService {
     return response
   }
 
-  async getBalance(groupId: number): Promise<ApiResponse<DebtDto>> {
-    const url = `${environment.apiBaseUrl}${this.API_PREFIX}/${groupId}/debt`;
+  async getBalance(groupId: number): Promise<ApiResponse<BalanceDto>> {
+    const url = `${environment.apiBaseUrl}${this.API_PREFIX}/${groupId}/balance`;
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.jwtToken}`);
 
-    const response = await firstValueFrom(this.http.get<ApiResponse<DebtDto>>(url, { headers }));
+    const response = await firstValueFrom(this.http.get<ApiResponse<BalanceDto>>(url, { headers }));
     response.data = response.data.map(x => ({
       type: x.type,
       id: x.id,
@@ -84,7 +84,7 @@ export class ApiService {
     const url = `${environment.apiBaseUrl}${this.API_PREFIX}/${groupId}/expense`;
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.jwtToken}`);
 
-    const response = await firstValueFrom(this.http.post<ApiResponse<DebtDto>>(url, expense, { headers }));
+    const response = await firstValueFrom(this.http.post<ApiResponse<BalanceDto>>(url, expense, { headers }));
     response.data = response.data.map(x => ({
       type: x.type,
       id: x.id,
