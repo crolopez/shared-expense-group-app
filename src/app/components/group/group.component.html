@@ -15,7 +15,7 @@
             <p class="card-text">{{ expense.attributes.currency }}</p>
             <p class="card-text">{{ expense.attributes.dateCreated }}</p>
           </div>
-          <button class="add-expense-btn" *ngIf="!showAddExpenseForm" (click)="toggleAddExpenseForm()">Add expense</button>
+          <button class="add-btn" *ngIf="!showAddExpenseForm" (click)="toggleAddExpenseForm()">Add expense</button>
           <div id="add-expense-form-container" *ngIf="showAddExpenseForm">
             <button class="btn btn-secondary" (click)="toggleAddExpenseForm()">Cancel</button>
             <form #addExpenseForm="ngForm" (ngSubmit)="addExpense(addExpenseForm.value)">
@@ -27,7 +27,7 @@
                 <label for="amount">Amount</label>
                 <input type="number" class="form-control" id="amount" name="amount" ngModel required>
               </div>
-              <button type="submit" class="btn btn-primary">Add expense</button>
+              <button type="submit" class="add-btn">Add expense</button>
             </form>
           </div>    
         </div>
@@ -37,7 +37,19 @@
             <h5 class="card-title">{{ user.attributes.name }}</h5>
             <p class="card-text">{{ user.id }}</p>
           </div>
+          <button class="add-btn" *ngIf="!showAddUserForm" (click)="toggleAddUserForm()">Add user</button>
+          <div id="add-user-form-container" *ngIf="showAddUserForm">
+            <button class="btn btn-secondary" (click)="toggleAddUserForm()">Cancel</button>
+            <form #addUserForm="ngForm" (ngSubmit)="addUser(addUserForm.value)">
+              <div class="form-group">
+                <label for="description">Username</label>
+                <input type="text" class="form-control" id="username" name="username" ngModel required>
+              </div>
+              <button type="submit" class="add-btn">Add user</button>
+            </form>
+          </div>   
         </div>
+
         <div class="balance-content" *ngIf="activeTab === 'balance'">
           <div class="card" *ngFor="let balance of balances">
             <h5 class="card-title">{{ balance.attributes.name }}</h5>

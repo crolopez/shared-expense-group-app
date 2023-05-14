@@ -17,6 +17,7 @@ export class GroupComponent implements OnInit {
   groupTitle: string = '';
   activeTab = 'expenses';
   showAddExpenseForm: boolean = false;
+  showAddUserForm: boolean = false;
   expenses: DataDto<ExpenseDto>[] = []
   users: DataDto<UserDto>[] = []
   balances: DataDto<DebtDto>[] = []
@@ -55,6 +56,10 @@ export class GroupComponent implements OnInit {
     this.showAddExpenseForm = !this.showAddExpenseForm;
   }
 
+  toggleAddUserForm() {
+    this.showAddUserForm = !this.showAddUserForm;
+  }
+
   async addExpense(expenseData: any) {
     const expense: ExpenseDto = {
       amount: Number(expenseData.amount),
@@ -63,6 +68,13 @@ export class GroupComponent implements OnInit {
     await this.apiService.addExpense(this.groupId, expense)
 
     this.toggleAddExpenseForm()
+    await this.fillScreenData()
+  }
+
+  async addUser(userData: any) {
+    await this.apiService.addUser(this.groupId, userData.username)
+
+    this.toggleAddUserForm()
     await this.fillScreenData()
   }
 

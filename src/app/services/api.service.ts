@@ -96,4 +96,12 @@ export class ApiService {
     return response
   }
 
+  async addUser(groupId: number, username: string) {
+    const url = `${environment.apiBaseUrl}${this.API_PREFIX}/${groupId}/user/${username}`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.jwtToken}`);
+
+    const response = await firstValueFrom(this.http.post(url, {}, { headers }));
+    return response
+  }
+
 }

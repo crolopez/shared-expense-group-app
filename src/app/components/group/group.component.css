@@ -5,7 +5,7 @@
     align-items: center;
   }
   
-  .add-expense-btn {
+  .add-btn {
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -17,11 +17,11 @@
     cursor: pointer;
   }
   
-  .add-expense-btn:hover {
+  .add-btn:hover {
     background-color: #3e8e41;
   }
   
-  .add-expense-form {
+  .add-form {
     display: none;
   }
   
