@@ -7,6 +7,7 @@
         <button class="tab" [ngClass]="{ 'active': activeTab === 'debts' }" (click)="activeTab = 'debts'">Debts</button>
     </div>
     <div class="content-container">
+      
         <div class="expense-content" *ngIf="activeTab === 'expenses'">
           <div class="card" *ngFor="let expense of expenses">
             <h5 class="card-title">{{ expense.attributes.description }}</h5>
@@ -15,6 +16,7 @@
             <p class="card-text">{{ expense.attributes.currency }}</p>
             <p class="card-text">{{ expense.attributes.dateCreated }}</p>
           </div>
+
           <button class="add-btn" *ngIf="!showAddExpenseForm" (click)="toggleAddExpenseForm()">Add expense</button>
           <div id="add-expense-form-container" *ngIf="showAddExpenseForm">
             <button class="btn btn-secondary" (click)="toggleAddExpenseForm()">Cancel</button>
@@ -53,15 +55,15 @@
         <div class="balance-content" *ngIf="activeTab === 'balance'">
           <div class="card" *ngFor="let balance of balances">
             <h5 class="card-title">{{ balance.attributes.name }}</h5>
-            <p class="card-text">{{ balance.attributes.amount }}</p>
+            <p class="card-text">{{ balance.attributes.amount }}€</p>
           </div>
         </div>
+
         <div class="debts-content" *ngIf="activeTab === 'debts'">
           <div class="card" *ngFor="let debt of debts">
-            <!--
-            <h5 class="card-title">{{ expense.title }}</h5>
-            <p class="card-text">{{ expense.description }}</p>
-            -->
+            <h5 class="card-title">{{ debt.attributes.amount }}€</h5>
+            <p class="card-text">{{ debt.attributes.fromUser }}</p>
+            <p class="card-text">{{ debt.attributes.toUser }}</p>
           </div>
         </div>
       </div>

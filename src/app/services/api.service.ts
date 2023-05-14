@@ -11,11 +11,13 @@ import { ExpenseDto } from '../types/expense.dto';
 import { DataDto } from '../types/data.dto';
 import { UserDto } from '../types/user.dto';
 import { BalanceDto } from '../types/balance.dto';
+import { DebtDto } from '../types/debt.dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
+
   private API_PREFIX = '/v1/group'
   private jwtToken = ''
  
@@ -46,7 +48,7 @@ export class ApiService {
       type: x.type,
       id: x.id,
       attributes: {
-          amount: Number(x.attributes.amount),
+          amount: Number(x.attributes.amount.toFixed(2)),
           currency: x.attributes.currency,
           dateCreated: x.attributes.dateCreated,
           user: x.attributes.user,
@@ -73,8 +75,25 @@ export class ApiService {
       type: x.type,
       id: x.id,
       attributes: {
-          amount: Number(x.attributes.amount),
+          amount: Number(x.attributes.amount.toFixed(2)),
           name: x.attributes.name,
+      }
+    }))
+    return response
+  }
+
+  async getDebts(groupId: number): Promise<ApiResponse<DebtDto>> {
+    const url = `${environment.apiBaseUrl}${this.API_PREFIX}/${groupId}/debt`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.jwtToken}`);
+
+    const response = await firstValueFrom(this.http.get<ApiResponse<DebtDto>>(url, { headers }));
+    response.data = response.data.map(x => ({
+      type: x.type,
+      id: x.id,
+      attributes: {
+          amount: Number(x.attributes.amount.toFixed(2)),
+          fromUser: x.attributes.fromUser,
+          toUser: x.attributes.toUser
       }
     }))
     return response
@@ -89,7 +108,7 @@ export class ApiService {
       type: x.type,
       id: x.id,
       attributes: {
-          amount: Number(x.attributes.amount),
+          amount: Number(x.attributes.amount.toFixed(2)),
           name: x.attributes.name,
       }
     }))

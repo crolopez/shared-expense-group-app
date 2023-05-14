@@ -6,6 +6,7 @@ import { DataDto } from 'src/app/types/data.dto';
 import { BalanceDto } from 'src/app/types/balance.dto';
 import { ExpenseDto } from 'src/app/types/expense.dto';
 import { UserDto } from 'src/app/types/user.dto';
+import { DebtDto } from 'src/app/types/debt.dto';
 
 @Component({
   selector: 'app-group',
@@ -21,7 +22,7 @@ export class GroupComponent implements OnInit {
   expenses: DataDto<ExpenseDto>[] = []
   users: DataDto<UserDto>[] = []
   balances: DataDto<BalanceDto>[] = []
-  debts: string[] = []
+  debts: DataDto<DebtDto>[] = []
 
   constructor(private apiService: ApiService, private router: Router, private route: ActivatedRoute, private cd: ChangeDetectorRef) { }
 
@@ -43,11 +44,13 @@ export class GroupComponent implements OnInit {
     const expenses = this.apiService.getExpenses(this.groupId)
     const users = this.apiService.getUsers(this.groupId)
     const balance = this.apiService.getBalance(this.groupId)
-    const values = await Promise.all([expenses, users, balance])
+    const debts = this.apiService.getDebts(this.groupId)
+    const values = await Promise.all([expenses, users, balance, debts])
 
     this.expenses = this.getFormattedExpenses(values[0].data as DataDto<ExpenseDto>[])
     this.users = values[1].data as DataDto<UserDto>[]
     this.balances = values[2].data as DataDto<BalanceDto>[]
+    this.debts = values[3].data as DataDto<DebtDto>[]
 
     this.cd.detectChanges();
   }
