@@ -20,6 +20,7 @@ import { GroupComponent } from './components/group/group.component';
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    FormsModule,
     AppRoutingModule 
   ],
   providers: [],

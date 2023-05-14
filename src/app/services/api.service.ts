@@ -16,7 +16,6 @@ import { DebtDto } from '../types/debt.dto';
   providedIn: 'root'
 })
 export class ApiService {
-
   private API_PREFIX = '/v1/group'
   private jwtToken = ''
  
@@ -70,6 +69,22 @@ export class ApiService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.jwtToken}`);
 
     const response = await firstValueFrom(this.http.get<ApiResponse<DebtDto>>(url, { headers }));
+    response.data = response.data.map(x => ({
+      type: x.type,
+      id: x.id,
+      attributes: {
+          amount: Number(x.attributes.amount),
+          name: x.attributes.name,
+      }
+    }))
+    return response
+  }
+
+  async addExpense(groupId: number, expense: ExpenseDto) {
+    const url = `${environment.apiBaseUrl}${this.API_PREFIX}/${groupId}/expense`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.jwtToken}`);
+
+    const response = await firstValueFrom(this.http.post<ApiResponse<DebtDto>>(url, expense, { headers }));
     response.data = response.data.map(x => ({
       type: x.type,
       id: x.id,

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { DataDto } from 'src/app/types/data.dto';
@@ -15,12 +16,13 @@ export class GroupComponent implements OnInit {
   groupId: number = 0;
   groupTitle: string = '';
   activeTab = 'expenses';
+  showAddExpenseForm: boolean = false;
   expenses: DataDto<ExpenseDto>[] = []
   users: DataDto<UserDto>[] = []
   balances: DataDto<DebtDto>[] = []
   debts: string[] = []
 
-  constructor(private apiService: ApiService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private apiService: ApiService, private router: Router, private route: ActivatedRoute, private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -45,6 +47,23 @@ export class GroupComponent implements OnInit {
     this.expenses = values[0].data as unknown as DataDto<ExpenseDto>[]
     this.users = values[1].data as unknown as DataDto<UserDto>[]
     this.balances = values[2].data as unknown as DataDto<DebtDto>[]
+
+    this.cd.detectChanges();
+  }
+
+  toggleAddExpenseForm() {
+    this.showAddExpenseForm = !this.showAddExpenseForm;
+  }
+
+  async addExpense(expenseData: any) {
+    const expense: ExpenseDto = {
+      amount: Number(expenseData.amount),
+      description: expenseData.description,
+    };
+    await this.apiService.addExpense(this.groupId, expense)
+
+    this.toggleAddExpenseForm()
+    await this.fillScreenData()
   }
 
   processUnexpectedCondition() {

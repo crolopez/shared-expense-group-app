@@ -5,3 +5,23 @@
     align-items: center;
   }
   
+  .add-expense-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .add-expense-btn:hover {
+    background-color: #3e8e41;
+  }
+  
+  .add-expense-form {
+    display: none;
+  }
+  

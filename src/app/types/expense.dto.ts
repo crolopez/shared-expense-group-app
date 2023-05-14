@@ -1,7 +1,7 @@
 export interface ExpenseDto {
-    amount: (number)
+    amount: number
     description: string
-    dateCreated: string
-    currency: string
-    user: string
+    dateCreated?: string
+    currency?: string
+    user?: string
 }
