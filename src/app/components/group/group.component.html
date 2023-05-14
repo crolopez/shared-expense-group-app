@@ -1,0 +1,42 @@
+<div class="container">
+    <h2>{{ groupTitle }}</h2>
+    <div class="tab-container">
+        <button class="tab" [ngClass]="{ 'active': activeTab === 'expenses' }" (click)="activeTab = 'expenses'">Expenses</button>
+        <button class="tab" [ngClass]="{ 'active': activeTab === 'users' }" (click)="activeTab = 'users'">Users</button>
+        <button class="tab" [ngClass]="{ 'active': activeTab === 'balance' }" (click)="activeTab = 'balance'">Balance</button>
+        <button class="tab" [ngClass]="{ 'active': activeTab === 'debts' }" (click)="activeTab = 'debts'">Debts</button>
+    </div>
+    <div class="content-container">
+        <div class="expense-content" *ngIf="activeTab === 'expenses'">
+          <div class="card" *ngFor="let expense of expenses">
+            <h5 class="card-title">{{ expense.attributes.description }}</h5>
+            <p class="card-text">{{ expense.attributes.user }}</p>
+            <p class="card-text">{{ expense.attributes.amount }}</p>
+            <p class="card-text">{{ expense.attributes.currency }}</p>
+            <p class="card-text">{{ expense.attributes.dateCreated }}</p>
+          </div>
+        </div>
+
+        <div class="users-content" *ngIf="activeTab === 'users'">
+          <div class="card" *ngFor="let user of users">
+            <h5 class="card-title">{{ user.attributes.name }}</h5>
+            <p class="card-text">{{ user.id }}</p>
+          </div>
+        </div>
+        <div class="balance-content" *ngIf="activeTab === 'balance'">
+          <div class="card" *ngFor="let balance of balances">
+            <h5 class="card-title">{{ balance.attributes.name }}</h5>
+            <p class="card-text">{{ balance.attributes.amount }}</p>
+          </div>
+        </div>
+        <div class="debts-content" *ngIf="activeTab === 'debts'">
+          <div class="card" *ngFor="let debt of debts">
+            <!--
+            <h5 class="card-title">{{ expense.title }}</h5>
+            <p class="card-text">{{ expense.description }}</p>
+            -->
+          </div>
+        </div>
+      </div>
+</div>
+  

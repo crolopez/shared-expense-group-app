@@ -1,0 +1,12 @@
+<div class="group-selection">
+    <h2>Shared expense groups</h2>
+    <div class="card-deck">
+        <div class="card" *ngFor="let dataGroup of dataGroups">
+          <div class="card-body">
+            <button class="btn btn-primary" (click)="goToGroup(dataGroup.id, dataGroup.attributes.groupTitle)">
+              <h5 class="card-title">{{ dataGroup.attributes.groupTitle }}</h5>
+            </button>
+          </div>
+        </div>
+    </div>
+</div>
