@@ -45,11 +45,50 @@ export class GroupComponent implements OnInit {
     const balance = this.apiService.getBalance(this.groupId)
     const values = await Promise.all([expenses, users, balance])
 
-    this.expenses = values[0].data as unknown as DataDto<ExpenseDto>[]
-    this.users = values[1].data as unknown as DataDto<UserDto>[]
-    this.balances = values[2].data as unknown as DataDto<DebtDto>[]
+    this.expenses = this.getFormattedExpenses(values[0].data as DataDto<ExpenseDto>[])
+    this.users = values[1].data as DataDto<UserDto>[]
+    this.balances = values[2].data as DataDto<DebtDto>[]
 
     this.cd.detectChanges();
+  }
+
+  getFormattedExpenses(expenses: DataDto<ExpenseDto>[]): DataDto<ExpenseDto>[] {
+    let expensesWithEpoch: DataDto<ExpenseDto>[] = expenses.map(x => { 
+      x.attributes.dateCreatedEpoch = x.attributes.dateCreated ? new Date(x.attributes.dateCreated).getTime() : 0
+      return x
+    })
+
+    expensesWithEpoch = this.orderExpenses(expensesWithEpoch)
+    return this.formatDateCreated(expensesWithEpoch)
+  }
+
+  formatDateCreated(expensesWithEpoch: DataDto<ExpenseDto>[]): DataDto<ExpenseDto>[] {
+    const epochNow = Date.now() / 1000
+    const minuteInSeconds = 60
+    const hourInSeconds = minuteInSeconds * 60
+    const dayInSeconds = hourInSeconds * 24
+    const monthInSeconds = dayInSeconds * 30
+
+    return expensesWithEpoch.map(x => {
+      const epoch = x.attributes.dateCreatedEpoch as number / 1000
+      if ((epochNow - epoch) < minuteInSeconds) {
+        x.attributes.dateCreated = `${Math.trunc(epochNow - epoch)} seconds ago`
+      } else if ((epochNow - epoch) < hourInSeconds) {
+        x.attributes.dateCreated = `${Math.trunc((epochNow - epoch) / minuteInSeconds)} minutes ago`
+      } else if ((epochNow - epoch) < dayInSeconds) {
+        x.attributes.dateCreated = `${Math.trunc((epochNow - epoch) / hourInSeconds)} hours ago`
+      } else if ((epochNow - epoch) < monthInSeconds) {
+        x.attributes.dateCreated = `${Math.trunc((epochNow - epoch) / dayInSeconds)} days ago`
+      } else {
+        x.attributes.dateCreated = `${Math.trunc((epochNow - epoch) / monthInSeconds)} months ago`
+      }
+
+      return x
+    })
+  }
+
+  orderExpenses(expensesWithEpoch: DataDto<ExpenseDto>[]): DataDto<ExpenseDto>[] {
+    return expensesWithEpoch.sort((a, b) => (b.attributes.dateCreatedEpoch as number) - (a.attributes.dateCreatedEpoch as number));
   }
 
   toggleAddExpenseForm() {
