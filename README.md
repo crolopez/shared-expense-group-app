@@ -19,3 +19,10 @@ npm run start
 ```
 
 After this, the APP will be ready at http://localhost:4200/.
+
+If you want to build the application in a dockerized environment:
+
+```bash
+docker build -t sharedexpense-app .
+docker run -p 4200:80 sharedexpense-app
+```

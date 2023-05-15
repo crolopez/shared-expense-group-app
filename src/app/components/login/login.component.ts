@@ -9,7 +9,7 @@ import { LoginRequest } from 'src/app/types/login.request';
   styleUrls: ['../common/common.styles.css', './login.component.css']
 })
 export class LoginComponent {
-  loginRequest: LoginRequest = { username: 'goku', password: '235hxa' }; // FOR TESTING PURPOSES
+  loginRequest: LoginRequest = { username: '', password: '' };
   
   errorMessage: string = '';
 
