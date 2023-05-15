@@ -5,7 +5,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  background-color: #cac9c9;
+  background-color: #8a89894b;
   padding: 10px;
 } 
 
@@ -35,7 +35,7 @@
   margin: 10px;
   display: flex;
   justify-content: space-between;
-  background-color: #cac9c9;
+  background-color: #8a89894b;
   border-radius: 15px;
   padding: 10px;
   margin-bottom: 10px;
@@ -70,4 +70,22 @@
 
 .negative-amount {
   color: red;
+}
+
+.add-entry-section {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background-color: #8a89894b;
+  width: 100%;
+  padding: 10px;
+
+}
+
+.add-entry-container{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 0px; 
 }

@@ -23,23 +23,6 @@
               <p class="card-text">{{ expense.attributes.dateCreated }}</p>
             </div>
           </div>
-
-          <button class="add-btn" *ngIf="!showAddExpenseForm" (click)="toggleAddExpenseForm()">Add expense</button>
-          <div id="add-expense-form-container" *ngIf="showAddExpenseForm">
-            <button class="btn btn-secondary" (click)="toggleAddExpenseForm()">Cancel</button>
-            <form #addExpenseForm="ngForm" (ngSubmit)="addExpense(addExpenseForm.value)">
-              <div class="form-group">
-                <label for="description">Description</label>
-                <input type="text" class="form-control" id="description" name="description" ngModel required>
-              </div>
-              <div class="form-group">
-                <label for="amount">Amount</label>
-                <input type="number" class="form-control" id="amount" name="amount" ngModel required>
-              </div>
-              <button type="submit" class="add-btn">Add expense</button>
-              <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div> 
-            </form>
-          </div>    
         </div>
 
         <div class="users-content" *ngIf="activeTab === 'users'">
@@ -49,18 +32,6 @@
               <p class="card-text">{{ user.id }}</p>
             </div>
           </div>
-          <button class="add-btn" *ngIf="!showAddUserForm" (click)="toggleAddUserForm()">Add user</button>
-          <div id="add-user-form-container" *ngIf="showAddUserForm">
-            <button class="btn btn-secondary" (click)="toggleAddUserForm()">Cancel</button>
-            <form #addUserForm="ngForm" (ngSubmit)="addUser(addUserForm.value)">
-              <div class="form-group">
-                <label for="description">Username</label>
-                <input type="text" class="form-control" id="username" name="username" ngModel required>
-              </div>
-              <button type="submit" class="add-btn">Add user</button>
-              <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div> 
-            </form>
-          </div>   
         </div>
 
         <div class="balance-content" *ngIf="activeTab === 'balance'">
@@ -86,4 +57,40 @@
         </div>
       </div>
   </div>
+
+  <div class="add-entry-section" *ngIf="activeTab === 'expenses'">  
+    <button class="add-btn" *ngIf="!showAddExpenseForm" (click)="toggleAddExpenseForm()">Add expense</button>
+    <div id="add-expense-form-container" *ngIf="showAddExpenseForm" class="add-entry-container">
+      <form #addExpenseForm="ngForm" (ngSubmit)="addExpense(addExpenseForm.value)">
+        <button type="submit" class="add-btn">Add expense</button>
+        <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div> 
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input type="text" class="form-control" id="description" name="description" ngModel required>
+        </div>
+        <div class="form-group">
+          <label for="amount">Amount</label>
+          <input type="number" class="form-control" id="amount" name="amount" ngModel required>
+        </div>
+        <button class="btn btn-secondary" (click)="toggleAddExpenseForm()">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="add-entry-section" *ngIf="activeTab === 'users'">  
+    <button class="add-btn" *ngIf="!showAddUserForm" (click)="toggleAddUserForm()">Add user</button>
+    <div id="add-user-form-container" *ngIf="showAddUserForm" class="add-entry-container">
+      <form #addUserForm="ngForm" (ngSubmit)="addUser(addUserForm.value)">
+        <button type="submit" class="add-btn">Add user</button>
+        <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div> 
+        <div class="form-group">
+          <label for="description">Username</label>
+          <input type="text" class="form-control" id="username" name="username" ngModel required>
+        </div>
+        <button class="btn btn-secondary" (click)="toggleAddUserForm()">Cancel</button>
+      </form>
+    </div>   
+  </div>
+
 </div>
+

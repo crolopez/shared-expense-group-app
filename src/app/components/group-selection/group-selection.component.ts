@@ -19,7 +19,6 @@ export class GroupSelectionComponent implements OnInit {
     this.apiService.getGroups()
     .then((result) => {
       this.dataGroups = result.data
-      //this.router.navigate(['/group-selection']); 
     })
     .catch((error) => {
       console.log(`Error in GroupSelectionComponent: ${error}`); 
