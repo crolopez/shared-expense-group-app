@@ -6,6 +6,7 @@ import { LoginRequest } from 'src/app/types/login.request';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html', 
+  styleUrls: ['../common/common.styles.css', './login.component.css']
 })
 export class LoginComponent {
   loginRequest: LoginRequest = { username: 'goku', password: '235hxa' }; // FOR TESTING PURPOSES

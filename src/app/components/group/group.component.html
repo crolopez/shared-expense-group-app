@@ -1,4 +1,6 @@
-<div class="container">
+<div class="group base-component">
+
+  <div class="header">
     <h2>{{ groupTitle }}</h2>
     <div class="tab-container">
         <button class="tab" [ngClass]="{ 'active': activeTab === 'expenses' }" (click)="activeTab = 'expenses'">Expenses</button>
@@ -6,15 +8,20 @@
         <button class="tab" [ngClass]="{ 'active': activeTab === 'balance' }" (click)="activeTab = 'balance'">Balance</button>
         <button class="tab" [ngClass]="{ 'active': activeTab === 'debts' }" (click)="activeTab = 'debts'">Debts</button>
     </div>
-    <div class="content-container">
-      
+  </div>
+
+  <div class="content-wrapper">
+    <div class="content-container">  
         <div class="expense-content" *ngIf="activeTab === 'expenses'">
           <div class="card" *ngFor="let expense of expenses">
-            <h5 class="card-title">{{ expense.attributes.description }}</h5>
-            <p class="card-text">{{ expense.attributes.user }}</p>
-            <p class="card-text">{{ expense.attributes.amount }}</p>
-            <p class="card-text">{{ expense.attributes.currency }}</p>
-            <p class="card-text">{{ expense.attributes.dateCreated }}</p>
+            <div class="card-left">
+              <b><p class="card-text">{{ expense.attributes.user }}</p></b>
+              <p class="card-text">{{ expense.attributes.description }}</p>
+            </div>
+            <div class="card-right">
+              <p class="card-text">{{ expense.attributes.amount }}{{ expense.attributes.currency }}</p>
+              <p class="card-text">{{ expense.attributes.dateCreated }}</p>
+            </div>
           </div>
 
           <button class="add-btn" *ngIf="!showAddExpenseForm" (click)="toggleAddExpenseForm()">Add expense</button>
@@ -30,14 +37,17 @@
                 <input type="number" class="form-control" id="amount" name="amount" ngModel required>
               </div>
               <button type="submit" class="add-btn">Add expense</button>
+              <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div> 
             </form>
           </div>    
         </div>
 
         <div class="users-content" *ngIf="activeTab === 'users'">
           <div class="card" *ngFor="let user of users">
-            <h5 class="card-title">{{ user.attributes.name }}</h5>
-            <p class="card-text">{{ user.id }}</p>
+            <div class="card-center">
+              <b><p class="card-text">{{ user.attributes.name }}</p></b>
+              <p class="card-text">{{ user.id }}</p>
+            </div>
           </div>
           <button class="add-btn" *ngIf="!showAddUserForm" (click)="toggleAddUserForm()">Add user</button>
           <div id="add-user-form-container" *ngIf="showAddUserForm">
@@ -48,23 +58,32 @@
                 <input type="text" class="form-control" id="username" name="username" ngModel required>
               </div>
               <button type="submit" class="add-btn">Add user</button>
+              <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div> 
             </form>
           </div>   
         </div>
 
         <div class="balance-content" *ngIf="activeTab === 'balance'">
           <div class="card" *ngFor="let balance of balances">
-            <h5 class="card-title">{{ balance.attributes.name }}</h5>
-            <p class="card-text">{{ balance.attributes.amount }}€</p>
+            <div class="card-left">
+              <b><p class="card-text">{{ balance.attributes.name }}</p></b>
+            </div>
+            <div class="card-right">
+              <p [ngClass]="{'positive-amount': isPositiveAmount(balance.attributes.amount), 'negative-amount': !isPositiveAmount(balance.attributes.amount)}" class="card-text">{{ balance.attributes.amount }} {{ balance.attributes.currency }}</p>
+            </div>
           </div>
         </div>
 
         <div class="debts-content" *ngIf="activeTab === 'debts'">
           <div class="card" *ngFor="let debt of debts">
-            <h5 class="card-title">{{ debt.attributes.amount }}€</h5>
-            <p class="card-text">{{ debt.attributes.fromUser }}</p>
-            <p class="card-text">{{ debt.attributes.toUser }}</p>
+            <div class="card-left">
+              <p class="card-text"><b>{{ debt.attributes.fromUser }}</b> -> <b>{{ debt.attributes.toUser }}</b></p>
+            </div>
+            <div class="card-right">
+              <p class="card-text">{{ debt.attributes.amount }} {{ debt.attributes.currency }}</p>
+            </div>
           </div>
         </div>
       </div>
+  </div>
 </div>

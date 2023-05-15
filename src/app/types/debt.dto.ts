@@ -1,5 +1,6 @@
 export interface DebtDto {
     fromUser: string,
     toUser: string,
-    amount: number
+    amount: number,
+    currency: string
 }

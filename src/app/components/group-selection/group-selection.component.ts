@@ -7,7 +7,8 @@ import { GroupDto } from 'src/app/types/group.dto';
 
 @Component({
   selector: 'app-group-selection',
-  templateUrl: './group-selection.component.html'
+  templateUrl: './group-selection.component.html',
+  styleUrls: ['../common/common.styles.css', './group-selection.component.css']
 })
 export class GroupSelectionComponent implements OnInit {
   dataGroups: DataDto<GroupDto>[] = [];
