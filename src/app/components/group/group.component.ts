@@ -44,7 +44,7 @@ export class GroupComponent implements OnInit {
     });
   }
 
-  async fillScreenData() {
+  private async fillScreenData() {
     const expenses = this.apiService.getExpenses(this.groupId)
     const users = this.apiService.getUsers(this.groupId)
     const balance = this.apiService.getBalance(this.groupId)

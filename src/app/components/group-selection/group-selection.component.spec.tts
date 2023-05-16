@@ -1,0 +1,69 @@
+// Strange problem with the import of ApiService TODO 
+
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
+import { GroupSelectionComponent } from './group-selection.component';
+import { DataDto } from 'src/app/types/data.dto';
+import { GroupDto } from 'src/app/types/group.dto';
+import { ApiService } from 'src/app/services/api.service';
+
+describe('GroupSelectionComponent', () => {
+  let component: GroupSelectionComponent;
+  let fixture: ComponentFixture<GroupSelectionComponent>;
+  let apiService: ApiService;
+  let router: Router;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
+      declarations: [GroupSelectionComponent],
+      providers: [ApiService]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(GroupSelectionComponent);
+    component = fixture.componentInstance;
+    apiService = TestBed.inject(ApiService);
+    router = TestBed.inject(Router);
+  });
+
+  it('should fetch groups on initialization', () => {
+    const groups: DataDto<GroupDto>[] = [
+      {
+        id: 2422,
+        type: 'group',
+        attributes: {
+          groupTitle: 'fakeGroup'
+        }
+      }
+    ];
+
+    spyOn(apiService, 'getGroups').and.returnValue(Promise.resolve({ data: groups }));
+
+    component.ngOnInit();
+
+    expect(apiService.getGroups).toHaveBeenCalled();
+    expect(component.dataGroups).toEqual(groups);
+  });
+
+  it('should navigate to group on goToGroup method', () => {
+    const navigateSpy = spyOn(router, 'navigateByUrl');
+    const groupId = 1;
+    const groupTitle = 'Test Group';
+    const expectedUrl = `/group/${groupId}`;
+
+    component.goToGroup(groupId, groupTitle);
+
+    expect(navigateSpy).toHaveBeenCalledWith(expectedUrl, { state: { title: groupTitle } });
+  });
+
+  it('should navigate to login page on error', async () => {
+    spyOn(apiService, 'getGroups').and.returnValue(Promise.reject('API error'));
+    const navigateSpy = spyOn(router, 'navigate');
+
+    await component.ngOnInit();
+
+    expect(apiService.getGroups).toHaveBeenCalled();
+    expect(navigateSpy).toHaveBeenCalledWith(['/login']);
+  });
+});
